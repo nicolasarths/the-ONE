@@ -1,4 +1,6 @@
-import Block from './Block'
+//Type ``npm run test Block`` to run tests
+
+import {Block} from '../model'
 
 let newBlock
 beforeEach(() => newBlock = new Block())
@@ -16,6 +18,11 @@ describe('Instantiation of a block', () => {
 })
 
 describe('Block methods', () => {
+    it('is possible to rename', () => {
+        const newTitle = 'Renamed block'
+        expect(newBlock.rename(newTitle)).toBeTruthy()
+        expect(newBlock.title).toBe(newTitle)
+    })
     it('is possible to add content', () => {
         const paragraph = 'A paragraph'
         expect(newBlock.write(paragraph)).toBeTruthy()
