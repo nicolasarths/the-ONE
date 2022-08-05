@@ -5,7 +5,7 @@ beforeEach(() => Database.dropAll())
 
 describe('Controller', () => {
     it('can create a default block', () => {
-        expect(Controller.createDefaultBlock()).toBeTruthy()
+        expect(Controller.createDefaultBlock()).toBe(undefined)
         expect(Database.retrieve()).toEqual([new Block()])
     })
     it('is possible to get stored blocks', () => {
