@@ -1,0 +1,27 @@
+{
+  "name": "the-one",
+  "version": "1.0.0",
+  "description": "organize everything in ONE place.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/nicolasarths/the-ONE"
+  },
+  "keywords": [
+    "todoapp",
+    "organizer"
+  ],
+  "author": "Nícolas Arths.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolasarths/the-ONE/issues"
+  },
+  "homepage": "https://github.com/nicolasarths/the-ONE#readme",
+  "dependencies": {
+    "jest": "^28.1.3"
+  }
+}
