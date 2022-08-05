@@ -9,7 +9,17 @@ describe('Database', () => {
         expect(Database).toBeTruthy()
     })
     it('is possible to store data', () => {
-        expect(Database.store('data')).toBeTruthy()
+        expect(Database.store('data')).toBe(undefined)
+    })
+    it('stored data has index', () => {
+        Database.store(['data'])
+        expect(Database.retrieve('data', true)).toEqual(1)
+
+        Database.store('data', 'moreData')
+        expect(Database.retrieve('data', true)).toEqual([1,2])
+
+        Database.store('moreData')
+        expect(Database.retrieve('moreData', true)).toEqual([3, 4])
     })
     it('is possible to drop entire Database', () => {
         Database.dropAll()
@@ -18,10 +28,24 @@ describe('Database', () => {
 })
 
 describe('Storing data', () => {
+    it('is possible to add multiple data at once using commas', () => {
+        Database.store(1, 2, 3)
+        expect(Database.retrieve()).toEqual([1, 2, 3])
+    })
     it('is possible to add multiple data at once with arrays', () => {
         const arr = [1, 2, 3]
         Database.store(arr)
         expect(Database.retrieve()).toEqual(arr)
+    })
+    it('is possible to store array(s) using array(s) inside array', () => {
+        const arr = ['an Array']
+        Database.store([arr])
+        expect(Database.retrieve()).toEqual([arr])
+
+        Database.dropAll()
+        Database.store([arr, arr])
+        expect(Database.retrieve()).toEqual([arr, arr])
+        
     })
     it('is possible to store objects', () => {
         const object = { a: 1, b: 2, c: 3}
@@ -29,10 +53,9 @@ describe('Storing data', () => {
         expect(Database.retrieve()).toEqual([object])
     })
     it('is possible to add multiple objects with arrays', () => {
-        Database.store([{a: 1}, {b: 2}, {c: 3}])
-        expect(Database.items[0]).toEqual({a: 1})
-        expect(Database.items[1]).toEqual({b:2})
-        expect(Database.items[2]).toEqual({c:3})
+        const multipleObjects = [{a: 1}, {b: 2}, {c: 3}]
+        Database.store(multipleObjects)
+        expect(Database.retrieve()).toEqual(multipleObjects)
     })
     it('is possible to add multiple different values', () => {
         const int = 1
@@ -72,15 +95,29 @@ describe('Retrieving data', () => {
 
 describe('Updating data', () => {
     it('is possible to delete data', () => {
-        Database.store([1, 2])
-        expect(Database.delete(1)).toBeFalsy()
-        expect(Database.retrieve()).toEqual([2])
+        const aBlock = new Block()
+        Database.store([1, 2, aBlock, 'String', 5])
+        Database.delete(1)
+        expect(Database.retrieve()).toEqual([2, aBlock, 'String', 5])
+        Database.delete('String')
+        expect(Database.retrieve()).toEqual([2, aBlock, 5])
+        Database.delete(aBlock)
+        expect(Database.retrieve()).toEqual([2, 5])
     })
     it('is possible to update data', () => {
-        const data = 0
-        const update = 1
+        const aBlock = new Block() 
+        const data = [1, 2, aBlock, 'String', 5]
         Database.store(data)
-        Database.update(data, update)
-        expect(Database.retrieve(update)).toBe(update)
+        Database.update('String', 'Updated String')
+
+        const updatedData = [1, 2, aBlock, 'Updated String', 5]
+        expect(Database.retrieve()).toEqual(updatedData)
+        
+        const updatedBlock = new Block()
+        updatedBlock.rename('Updated Block')
+        Database.update(aBlock, updatedBlock)
+        
+        const updatedData2 = [1, 2, updatedBlock, 'Updated String', 5]
+        expect(Database.retrieve()).toEqual(updatedData2)
     })
 })
