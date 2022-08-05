@@ -1,3 +1,5 @@
+//Type ``npm run test Database`` to run tests
+
 export default class Database {
     constructor(){
         this.data = []

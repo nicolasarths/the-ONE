@@ -1,3 +1,5 @@
+//Type ``npm run test Database`` to run tests
+
 import Database from './Database'
 import Block from './Block/Block'
 

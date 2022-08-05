@@ -1,3 +1,5 @@
+//Type ``npm run test Block`` to run tests
+
 export default class Block {
     constructor () {
         this.title = 'New Block'

@@ -1,3 +1,5 @@
+//Type ``npm run test Block`` to run tests
+
 import Block from './Block'
 
 let newBlock
