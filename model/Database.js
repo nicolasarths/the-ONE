@@ -1,95 +1,55 @@
 //Type ``npm run test Database`` to run tests
-
-let id = 0
-
-function extractData(args){
-    const onlyOneArgument = args.length == 1
-    const firstArgument = args[0]
-    const firstArgumentIsArray = Array.isArray(firstArgument)
-    const soloArgumentIsArray = onlyOneArgument && firstArgumentIsArray
-
-    if (soloArgumentIsArray){
-        return firstArgument
-    } else {
-        return args
-    }
-}
+import Data from './Data'
 
 class Database {
     constructor(){
         this.data = []
+        this.idCounter = 1
     }
 
-    #store(data){ 
-        this.data.push({
-            id: id,
-            item: data
+    #save(array){
+        array.forEach(item => {
+            this.idCounter++
+            this.data.push(new Data(item, this.idCounter))
         })
-        id++
     }
 
-    store(...args){
-        const data = extractData(args)
-
-        const dataIsArray = Array.isArray(data)
-
-
-        if (dataIsArray){
-            data.forEach(item => this.#store(item))
-        } else {
-            this.#store(data)
-        }
+    store(...data){
+        this.#save(data)
     }
 
-    #retrieveAllItems(){
-        const result = []
-        this.data.forEach(item => result.push(item.item))
-        return result
+    storeLots(...arrays){
+        arrays.forEach(array => this.#save(array))
     }
 
-    #findItem(query){
-        return this.data.find(item => item.item == query)
+    #findItems(query){
+        return this.data.filter(item => item.item == query)
     }
 
-    #retrieveIds(query){
-        const result = []
-        const data = this.data
-        const items = data.filter(item => item.item == query)    
-        items.forEach(item => result.push(item.id))
-        
-        if (result.length == 1){
-            return result[0]
-        } else {
-            return result
-        }
+    retrieve(){
+        return this.data
     }
 
-    retrieve(query, retrieveId){
-        if (query === undefined){
-            return this.#retrieveAllItems()
-        } else if (retrieveId){
-            return this.#retrieveIds(query)
-        }
-        return this.#findItem(query).item
+    delete(_id){
+        this.data = this.data.filter(item => item.id != _id);
     }
 
-    delete(item){
-        this.data = this.data.filter(it => it.item != item);
+    #query(by, query){
+        return this.data.find(item => item[by] == query)
     }
 
-    #findIndex(query){
-        const item = this.#findItem(query)
-        return this.data.indexOf(item)
-    }
-
-    update(item, update){
-        const index = this.#findIndex(item)
-        this.data[index].item = update
+    update(id, update){
+        this.data.map(item => {
+            if (item.id == id) item.item = update
+        })
     }
 
     dropAll(){
         this.data = []
+        this.idCounter = 0
     }
 }
 
-export default new Database()
+const database = new Database()
+
+export default database
