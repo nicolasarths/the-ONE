@@ -1,6 +1,6 @@
 //Type ``npm run test Block`` to run tests
 
-import {Block} from '../model'
+import {Block} from '../../../model'
 
 let newBlock
 beforeEach(() => newBlock = new Block())

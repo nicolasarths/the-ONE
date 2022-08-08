@@ -1,57 +1,55 @@
 //Type ``npm run test Database`` to run tests
+import Data from './Data'
 
 class Database {
     constructor(){
         this.data = []
-        this.items = []
+        this.idCounter = 1
     }
 
-    #store(data){ 
-        this.data.push({
-            index: this.data.length,
-            item: data
+    #save(array){
+        array.forEach(item => {
+            this.idCounter++
+            this.data.push(new Data(item, this.idCounter))
         })
-        this.items.push(data)
     }
 
-    store(data){
-        if (Array.isArray(data)){
-            data.forEach(item => this.#store(item))
-        } else {
-            this.#store(data)
-        }
-        return true;
+    store(...data){
+        this.#save(data)
     }
 
-    retrieve(query){
-        if (query === undefined){
-            return this.items
-        }
-        const index = this.items.indexOf(query)
-        const data = this.items[index]
-        return data
+    storeLots(...arrays){
+        arrays.forEach(array => this.#save(array))
     }
 
-    #findItem(query){
-        return this.data.find(item => item.item === query)
+    #findItems(query){
+        return this.data.filter(item => item.item == query)
     }
 
-    delete(){
-        this.dropAll()
+    retrieve(){
+        return this.data
     }
 
-    update(data, update){
-       /*  const {index} = this.#findItem(data)
-        console.log(this.data[index])
-        this.data[index] = 
-        console.log(this.data[index]) */
-        this.store(update)
+    delete(_id){
+        this.data = this.data.filter(item => item.id != _id);
+    }
+
+    #query(by, query){
+        return this.data.find(item => item[by] == query)
+    }
+
+    update(id, update){
+        this.data.map(item => {
+            if (item.id == id) item.item = update
+        })
     }
 
     dropAll(){
         this.data = []
-        this.items = []
+        this.idCounter = 0
     }
 }
 
-export default new Database()
+const database = new Database()
+
+export default database
