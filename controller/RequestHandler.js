@@ -1,26 +1,35 @@
-import BlockView from "../views"
-import Factory from "./Factory"
 import responses from "./responses"
 
+export default function RequestHandler(req){
+    if (req.method == 'create') return createRequest(req.model)
+    if (req.method == 'read') return readRequest(req)
+}
+
 function createRequest(model) {
-    Factory.create(model)
     return responses.success
 }
 
-function readRequest(model) {
+function nonExistantBoard (req) {
     return {
-        columns: [new BlockView()]
+        board: req.model.specs.title,
+        error: 1
     }
 }
 
-function dealer(req) {
-    if (req.method == 'create') return createRequest(req.model)
-    if (req.method == 'read') return readRequest(req.model)
+function getDashboard(req) {
+    const title = req.model.specs.title
+    return {
+        board: title,
+        grid: [
+            [],
+            [],
+            []
+        ]
+    }
 }
 
-export default class RequestHandler {
-    static respondTo(req){
-        try { return dealer(req) }
-        catch (error) { return responses.failure }
-    }
+function readRequest(req){
+    const titleOfBoardRequest = req.model.specs.title.toLowerCase()
+    if (titleOfBoardRequest == 'dashboard') return getDashboard(req)
+    else return nonExistantBoard(req)
 }
