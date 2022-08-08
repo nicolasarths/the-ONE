@@ -1,5 +1,4 @@
-import { Database } from "../../model"
-import mock from "../testHelpers/mock"
+import { Database, mock } from '.'
 
 export default it('is possible to update data', () => {
     const update1 = 'Anything can be placed here.'

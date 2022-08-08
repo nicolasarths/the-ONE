@@ -1,5 +1,4 @@
-import { Database } from "../../model"
-import mock from "../testHelpers/mock"
+import { Database, mock } from '.'
 
 const r = mock.randomValues
 const o = mock.mockBlocksOfRandomValues()

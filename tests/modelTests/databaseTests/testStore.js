@@ -1,5 +1,4 @@
-import { Database } from '../../model'
-import mock from '../testHelpers/mock'
+import { Database, mock } from '.'
 
 function storeRandomValues(){
     mock.randomValues.forEach(value => Database.store(value))
