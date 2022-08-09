@@ -1,3 +1,4 @@
+import { Block, Database } from "../model"
 import responses from "./responses"
 
 export default function RequestHandler(req){
@@ -6,6 +7,7 @@ export default function RequestHandler(req){
 }
 
 function createRequest(model) {
+    Database.store(new Block())
     return responses.success
 }
 
@@ -18,7 +20,8 @@ function nonExistantBoard (req) {
 
 function getDashboard(req) {
     const title = req.model.specs.title
-    return {
+
+    const dashboard = {
         board: title,
         grid: [
             [],
@@ -26,10 +29,31 @@ function getDashboard(req) {
             []
         ]
     }
+    
+    const retrievedInfo = Database.retrieve()
+    if (retrievedInfo.length > 0) dashboard.grid = equallyDistribute(retrievedInfo, dashboard.grid)
+
+    return dashboard
 }
 
 function readRequest(req){
     const titleOfBoardRequest = req.model.specs.title.toLowerCase()
     if (titleOfBoardRequest == 'dashboard') return getDashboard(req)
     else return nonExistantBoard(req)
+}
+
+function equallyDistribute(items, stacks){
+    let resolvedStacks = []
+    for (let i = 0; i < stacks.length; i++) {
+        resolvedStacks[i] = [...stacks[i]];
+    }
+    
+    let j = 0
+    items.forEach( (item) => {
+        resolvedStacks[j].push(item)
+        j++
+        if (j==stacks.length) j=0
+    })
+
+    return resolvedStacks
 }
