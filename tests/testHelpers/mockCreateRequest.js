@@ -1,6 +1,6 @@
 import Controller from "../../controller"
 
-export const request = {
+export default {
     method: 'create',
     model: {
         type: 'block',
@@ -9,8 +9,4 @@ export const request = {
             content: 'this block has no features yet.'
         }
     }
-}
-
-export default function mockCreateRequest(){
-    return Controller.handle(request)
 }
