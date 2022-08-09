@@ -1,8 +1,13 @@
 Type npm run test to check tests and the module name you want to understand how works;
-Example:
+
+For example:
+
 `npm run test block`
+
 Tests explain each function in the system.
+
 To up the server, type:
+
 `node server.js`
 
 
