@@ -1,5 +1,5 @@
-import { responses, mockCreateRequest } from '.'
+import { Controller, responses, createRequest } from '.'
 
 export default it('returns a success response to creation requests', () => {
-    expect(mockCreateRequest()).toEqual(responses.success)
+    expect(Controller.handle(createRequest) ).toEqual(responses.success)
 })
