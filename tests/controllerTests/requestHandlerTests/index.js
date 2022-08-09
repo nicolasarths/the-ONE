@@ -10,5 +10,4 @@ export { Controller, responses, mockCreateRequest, Block }
 export default describe('Request Handler', () => {
     testCreateRequest
     testReadRequest
-    afterReadDashboardRequest
 })
