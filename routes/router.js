@@ -1,18 +1,20 @@
 import fs from 'fs'
 
+const pagesRoute = './pages/'
+
 function home(req, res){
     res.writeHead(200, { 'content-type': 'text/html' })
-    fs.createReadStream('./pages/index.html').pipe(res)
+    fs.createReadStream(`${pagesRoute}index.html`).pipe(res)
 }
 
 function api(req, res){
     res.writeHead(200, { 'content-type': 'application/json' })
-    fs.createReadStream('./pages/api/index.json').pipe(res)
+    fs.createReadStream(`${pagesRoute}api/index.json`).pipe(res)
 }
 
 function notfound(req, res){
     res.writeHead(200, { 'content-type': 'text/html' })
-    fs.createReadStream('./pages/notfound.html').pipe(res)
+    fs.createReadStream(`${pagesRoute}notfound.html`).pipe(res)
 }
 
 export default function router(req, res){
