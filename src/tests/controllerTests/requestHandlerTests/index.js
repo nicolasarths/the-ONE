@@ -1,11 +1,11 @@
 import testCreateRequest from "./testCreateRequest"
 import testReadRequest from "./testReadRequest"
 
-import Controller from "../../../controller";
+import RequestHandler from "../../../controller/RequestHandler";
 import { Block } from '../../../model';
 import responses from "../../../controller/responses";
-import createRequest from '../../testHelpers/mockCreateRequest'
-export { Controller, responses, createRequest, Block }
+import { createRequest, JSONcreateRequest, readRequest } from '../../testHelpers/mockRequests'
+export { RequestHandler, responses, createRequest, readRequest, Block, JSONcreateRequest }
 
 export default describe('Request Handler', () => {
     testCreateRequest
